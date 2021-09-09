@@ -70,49 +70,31 @@ EOF'
 ```
 ## Installation
 
-As of this writing the lite image supplied by raspberry is WAY out of
-date. To actually update software you will need to run apt-get update
-with the `--allow-releaseinfo-change` argument or it will not download
-new package metadata.
+As of this writing the Raspberry OS lite image is WAY out of date. To 
+actually update software you will need to run apt-get update with the
+`--allow-releaseinfo-change` argument or it will not download new
+package metadata.
 
-### Install Prerequisites And Purge Nano
+### Install Prerequisites
+If you are blindly copy/pasting please note, I also remove/disbale
+things I dislike such as nano or vim's annoying mouse integration.
 
 ```shell
 sudo apt-get purge nano
+echo "set mouse-=a" > ~/.vimrc
 sudo apt-get update --allow-releaseinfo-change && apt-get update -y
 sudo apt-get install -y python3-pip
 git clone https://github.com/cgahlon/bme280_rest_api_server.git
 cd bme280_rest_api_server
 sudo pip3 install -r requirements.txt
 ```
-
-### Quick Server Test
-You can now start the server to test connectivity/fucntionality
-```shell
-sudo python3 bme280_rest_api_server.git
-```
-
-From a remote host or another terminal on the pi run a curl test.
-```shell
-curl http://127.0.0.1/temperature
-```
-You should see the temperature of your sensor as the only information
-returned.  If there are errors, check the output of the terminal you
-started the application in.  Most likely you forgot to update the i2c
-device address or bus in the code.
-
-Once the test is done hit ctrl-c to stop the manually started server.
-
-``shell
 ## Running The Server At Boot
 
 This is quick and dirty but it works for me until I have time to write
 some proper Ansible.
 ```shell
-# chagne to root
-sudo su -
-# Add root crontab entry that triggers at boot time
-sudo bash -c 'echo "@reboot /usr/bin/python3 /home/pi/bme280_rest_api_server/bme280_rest_server.py" > /var/spool/cron/crontabs/root && chmod 0600 /var/spool/cron/crontabs/root'
+# Add pi user crontab entry that triggers at boot time
+sudo bash -c 'echo "@reboot /usr/bin/python3 /home/pi/bme280_rest_api_server/bme280_rest_server.py" > /var/spool/cron/crontabs/pi && chmod 0600 /var/spool/cron/crontabs/pi && chown pi:crontab /var/spool/cron/crontabs/pi'
 ```
 
 And reboot your server.
@@ -122,7 +104,7 @@ sudo reboot
 
 Verify the API server is up:
 ```shell
-curl http://<raspberry_pi_ip_address>/temperature
+curl http://<raspberry_pi_ip_address>:9100/metrics
 ```
 
 # TODO List
