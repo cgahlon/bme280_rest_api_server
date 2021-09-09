@@ -43,9 +43,6 @@ class PrometheusMetrics(Resource):
         return response
 
 # Create API entry points
-api.add_resource(Temperature, '/temperature')  # '/temperature' is our entry point
-api.add_resource(Pressure, '/pressure')  # '/pressure' is our entry point
-api.add_resource(Humidity, '/humidity')  # '/humidity' is our entry point
 api.add_resource(PrometheusMetrics, '/metrics')  # '/prometheus_metrics' is our entry point
 
 if __name__ == '__main__':
