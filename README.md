@@ -1,6 +1,6 @@
 # bme280_rest_api_server
 
-A simple REST API Server using Flask to allo collection of data from a
+A simple REST API Server using Flask to allow collection of data from a
 bme280 sensor on a Raspberry Pi. This is going to be part of my freezer
 monitor setup so I used the Pi Zero W so it could be wireless.
 
