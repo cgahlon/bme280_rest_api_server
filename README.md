@@ -75,12 +75,14 @@ date. To actually update software you will need to run apt-get update
 with the `--allow-releaseinfo-change` argument or it will not download
 new package metadata.
 
-### Install Prerequisites
+### Install Prerequisites And Purge Nano
 
 ```shell
+sudo apt-get purge nano
 sudo apt-get update --allow-releaseinfo-change && apt-get update -y
 sudo apt-get install -y python3-pip
 git clone https://github.com/cgahlon/bme280_rest_api_server.git
+cd bme280_rest_api_server
 sudo pip3 install -r requirements.txt
 ```
 
@@ -99,7 +101,30 @@ returned.  If there are errors, check the output of the terminal you
 started the application in.  Most likely you forgot to update the i2c
 device address or bus in the code.
 
+Once the test is done hit ctrl-c to stop the manually started server.
+
 ``shell
 ## Running The Server At Boot
-TODO: Add boot time start instructions
-TODO: Write ansible playbook to do all the things and test the device
+
+This is quick and dirty but it works for me until I have time to write
+some proper Ansible.
+```shell
+# chagne to root
+sudo su -
+# Add root crontab entry that triggers at boot time
+sudo bash -c 'echo "@reboot /usr/bin/python3 /home/pi/bme280_rest_api_server/bme280_rest_server.py" > /var/spool/cron/crontabs/root && chmod 0600 /var/spool/cron/crontabs/root'
+```
+
+And reboot your server.
+```shell
+sudo reboot
+```
+
+Verify the API server is up:
+```shell
+curl http://<raspberry_pi_ip_address>/temperature
+```
+
+# TODO List
+TODO: Write ansible playbook to do all the things and test the service
+      once it is up
