@@ -66,6 +66,7 @@ network={
   ssid="NETWORK_NAME"
   psk="WIFI_PASSWORD"
 }
+
 EOF'
 ```
 ## Installation
@@ -76,13 +77,14 @@ actually update software you will need to run apt-get update with the
 package metadata.
 
 ### Install Prerequisites
-If you are blindly copy/pasting please note, I also remove/disbale
+If you are blindly copy/pasting please note, I also remove/disable
 things I dislike such as nano or vim's annoying mouse integration.
 
 ```shell
+sudo su -
 sudo apt-get purge nano
 echo "set mouse-=a" > ~/.vimrc
-sudo apt-get update --allow-releaseinfo-change && apt-get update -y
+sudo apt-get update --allow-releaseinfo-change
 sudo apt-get install -y python3-pip
 git clone https://github.com/cgahlon/bme280_rest_api_server.git
 cd bme280_rest_api_server
