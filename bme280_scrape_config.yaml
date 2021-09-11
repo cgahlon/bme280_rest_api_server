@@ -1,0 +1,22 @@
+# Scrape config for prometheus to collect bme280 data
+# as provided by the API server in this repo.
+
+scrape_configs:
+  - job_name: freezer
+    metrics_path: /metrics
+    scrape_interval: 5s
+    scrape_timeout: 10s
+    scheme: http
+    static_configs:
+      - targets: ['192.168.15.241:9100']
+        labels:
+          service: 'freezer'
+          group: 'appliances'
+          location: 'garage'
+
+  - job_name: 'freezer'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9555']
+          labels:
+            group: 'appliances'
