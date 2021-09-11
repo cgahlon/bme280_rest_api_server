@@ -42,8 +42,8 @@ class PrometheusMetrics(Resource):
         response.mimetype = "text/plain"
         return response
 
-# Create API entry points
-api.add_resource(PrometheusMetrics, '/metrics')  # '/prometheus_metrics' is our entry point
+# Create API entry point
+api.add_resource(PrometheusMetrics, '/metrics')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9100)  # run our Flask app
+    app.run(host='0.0.0.0', port=9555)  # run our Flask app
