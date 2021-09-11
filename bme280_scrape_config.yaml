@@ -13,10 +13,3 @@ scrape_configs:
           service: 'freezer'
           group: 'appliances'
           location: 'garage'
-
-  - job_name: 'freezer'
-    scrape_interval: 5s
-    static_configs:
-      - targets: ['localhost:9555']
-          labels:
-            group: 'appliances'
